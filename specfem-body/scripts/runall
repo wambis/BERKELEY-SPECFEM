@@ -1,0 +1,10 @@
+#!/bin/bash
+
+module unload PrgEnv-pgi
+module load PrgEnv-intel
+make clean
+make
+FIRST=$(qsub runmesh.pbs)
+echo $FIRST
+SECOND=$(qsub -W depend=afterany:$FIRST runspec.pbs)
+echo $SECOND

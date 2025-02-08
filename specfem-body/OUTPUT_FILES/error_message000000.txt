@@ -1,0 +1,2 @@
+ wrong number of MPI processes
+ Error detected, aborting MPI... proc            0

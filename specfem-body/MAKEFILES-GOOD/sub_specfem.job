@@ -1,0 +1,39 @@
+#!/bin/bash -l
+#SBATCH --job-name mirrors
+#SBATCH --time=00:05:00
+#SBATCH --nodes=6
+#SBATCH --ntasks=96
+#SBATCH --ntasks-per-node=16
+#SBATCH --output job.log
+#SBATCH --error job.err
+#SBATCH --verbose
+#SBATCH --qos=premium
+
+# module purge
+# module load shared gcc slurm intel/compiler/64 intel-mpi/64 intel/mkl/64
+
+module load gcc impi pmi
+
+export I_MPI_PMI_LIBRARY=/usr/lib64/slurmpmi/libpmi.so
+export I_MPI_FABRICS=ofi
+export I_MPI_OFI_PROVIDER=gni
+export I_MPI_OFI_LIBRARY=/usr/common/software/libfabric/1.5.0/gnu/lib/libfabric.so
+
+echo "Running on: $SLURM_NODELIST"
+echo "SLURM_NTASKS=$SLURM_NTASKS"
+echo "SLURM_NTASKS_PER_NODE=$SLURM_NTASKS_PER_NODE"
+echo "SLURM_NNODES=$SLURM_NNODES"
+
+# Compiling
+echo ">>>> Compiling `date`"
+# make clean
+#make
+
+echo ">>>> Running Mesh `date`"
+# Running Mesher
+srun -n 96 /scratch1/scratchdirs/sevan/specfem_mirror/bin/xmeshfem3D
+
+echo ">>>> Running Spec `date`"
+# Running simulation
+#srun -n 96 ./bin/xspecfem3D
+

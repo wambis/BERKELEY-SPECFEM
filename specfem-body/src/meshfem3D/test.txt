@@ -1,0 +1,4 @@
+make -C ../.. meshfem3D
+make[1]: Entering directory `/gpfs/users/masson/specfem3d_globe'
+ifort   -O3 -check nobounds -xHost -fpe0 -ftz -assume buffered_io -assume byterecl -align sequence -vec-report0 -std03 -diag-disable 6477 -implicitnone -gen-interfaces -warn all -mod ./obj -I./obj -I.  -I. -I./setup -c -o obj/model_berkeley.check.o src/meshfem3D/model_berkeley.f90
+make[1]: Leaving directory `/gpfs/users/masson/specfem3d_globe'

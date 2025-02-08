@@ -1,0 +1,58 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Citation}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Support}{5}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Getting Started}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Configuring and compiling the source code}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Compiling on an IBM BlueGene}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Using a cross compiler}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Adding OpenMP support in addition to MPI}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Visualizing the subroutine calling tree of the source code}{10}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Running the Mesher \texttt {xmeshfem3D}}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Memory requirements}{20}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Running the Solver \texttt {xspecfem3D}}{21}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Regional Simulations}{26}{chapter.5}%
+\contentsline {section}{\numberline {5.1}One-Chunk Simulations}{26}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Two-Chunk Simulations}{29}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Adjoint Simulations}{30}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Adjoint Simulations for Sources Only (not for the Model)}{30}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Adjoint Simulations for Finite-Frequency Kernels (Kernel Simulation)}{31}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Noise Cross-correlation Simulations}{34}{chapter.7}%
+\contentsline {section}{\numberline {7.1}New Requirements on `Old' Input Parameter Files}{34}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Noise Simulations: Step by Step}{35}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Pre-simulation}{35}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Simulations}{36}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Post-simulation}{37}{subsection.7.2.3}%
+\contentsline {section}{\numberline {7.3}Examples}{37}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Graphics}{38}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Meshes}{38}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Movies}{38}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Movie Surface}{38}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}Movie Volume}{39}{subsection.8.2.2}%
+\contentsline {section}{\numberline {8.3}Finite-Frequency Kernels}{40}{section.8.3}%
+\contentsline {chapter}{\numberline {9}Running through a Scheduler}{43}{chapter.9}%
+\contentsline {section}{\numberline {9.1}\texttt {run\_lsf.bash}}{43}{section.9.1}%
+\contentsline {section}{\numberline {9.2}\texttt {go\_mesher\_solver\_lsf\_globe.bash}}{44}{section.9.2}%
+\contentsline {section}{\numberline {9.3}\texttt {run\_lsf.kernel} and \texttt {go\_mesher\_solver\_globe.kernel}}{45}{section.9.3}%
+\contentsline {chapter}{\numberline {10}{\normalsize } Changing the Model}{46}{chapter.10}%
+\contentsline {section}{\numberline {10.1}{\normalsize }Changing the Crustal Model}{46}{section.10.1}%
+\contentsline {section}{\numberline {10.2}{\normalsize }Changing the Mantle Model}{47}{section.10.2}%
+\contentsline {subsection}{\numberline {10.2.1}{\normalsize Isotropic Models}}{47}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {10.2.2}{\normalsize Anisotropic Models}}{48}{subsection.10.2.2}%
+\contentsline {subsection}{\numberline {10.2.3}{\normalsize Point-Profile Models}}{49}{subsection.10.2.3}%
+\contentsline {section}{\numberline {10.3}{\normalsize }Anelastic Models}{50}{section.10.3}%
+\contentsline {chapter}{\numberline {11}Post-Processing Scripts}{51}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Clean Local Database}{51}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Process Data and Synthetics}{51}{section.11.2}%
+\contentsline {subsection}{\numberline {11.2.1}\texttt {process\_data.pl}}{52}{subsection.11.2.1}%
+\contentsline {subsection}{\numberline {11.2.2}\texttt {process\_syn.pl}}{52}{subsection.11.2.2}%
+\contentsline {subsection}{\numberline {11.2.3}\texttt {rotate.pl}}{52}{subsection.11.2.3}%
+\contentsline {subsection}{\numberline {11.2.4}\texttt {clean\_sac\_headers\_after\_crash.sh}}{52}{subsection.11.2.4}%
+\contentsline {section}{\numberline {11.3}Map Local Database}{53}{section.11.3}%
+\contentsline {chapter}{\numberline {A}Reference Frame Convention}{58}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Non-Dimensionalization Conventions{\small {} }}{59}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Benchmarks}{60}{appendix.C}%
+\contentsline {chapter}{\numberline {D}SAC Headers}{62}{appendix.D}%
+\contentsline {chapter}{\numberline {E}Channel Codes of Seismograms}{64}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Troubleshooting}{66}{appendix.F}%
+\contentsline {chapter}{\numberline {G}License}{68}{appendix.G}%

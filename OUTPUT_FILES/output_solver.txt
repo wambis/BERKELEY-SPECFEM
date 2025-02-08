@@ -1,0 +1,48 @@
+ 
+ ******************************
+ **** Specfem3D MPI Solver ****
+ ******************************
+ 
+ 
+ Fixing slow underflow trapping problem using small initial field
+ 
+ There are          384  MPI processes
+ Processes are numbered from 0 to          383
+ 
+ There are          256  elements along xi in each chunk
+ There are          256  elements along eta in each chunk
+ 
+ There are            8  slices along xi in each chunk
+ There are            8  slices along eta in each chunk
+ There is a total of           64  slices in each chunk
+ There are            6  chunks
+ There is a total of          384  slices in all the chunks
+ 
+ NDIM =            3
+ 
+ NGLLX =            5
+ NGLLY =            5
+ NGLLZ =            5
+ 
+ using single precision for the calculations
+ 
+ smallest and largest possible floating-point numbers are:   1.1754944E-38
+  3.4028235E+38
+ 
+ model: 1D_transversely_isotropic_prem
+   no oceans
+   no ellipticity
+   no surface topography
+   no self-gravitation
+   no rotation
+   no attenuation
+ 
+   no 3-D lateral variations
+   no heterogeneities in the mantle
+   no crustal variations
+   using unmodified 1D crustal model with two layers
+   incorporating transverse isotropy
+   no inner-core anisotropy
+   no general mantle anisotropy
+ 
+ 

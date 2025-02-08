@@ -1,0 +1,9 @@
+#PBS -q regular
+#PBS -l mppwidth=384
+#PBS -l walltime=02:30:00
+#PBS -N run_meshfem_3D
+#PBS -e run_meshfem_3D.$PBS_JOBID.err
+#PBS -o run_meshfem_3D.$PBS_JOBID.out
+ 
+cd $PBS_O_WORKDIR
+aprun -n 384 ./bin/xmeshfem3D

@@ -1,0 +1,1015 @@
+ 
+ ******************************
+ **** Specfem3D MPI Solver ****
+ ******************************
+ 
+ 
+ Fixing slow underflow trapping problem using small initial field
+ 
+ There are          384  MPI processes
+ Processes are numbered from 0 to          383
+ 
+ There are          256  elements along xi in each chunk
+ There are          256  elements along eta in each chunk
+ 
+ There are            8  slices along xi in each chunk
+ There are            8  slices along eta in each chunk
+ There is a total of           64  slices in each chunk
+ There are            6  chunks
+ There is a total of          384  slices in all the chunks
+ 
+ NDIM =            3
+ 
+ NGLLX =            5
+ NGLLY =            5
+ NGLLZ =            5
+ 
+ using single precision for the calculations
+ 
+ smallest and largest possible floating-point numbers are:   1.1754944E-38
+  3.4028235E+38
+ 
+ model: 1D_transversely_isotropic_prem_onecrust
+   no oceans
+   no ellipticity
+   no surface topography
+   no self-gravitation
+   no rotation
+   no attenuation
+ 
+   no 3-D lateral variations
+   no heterogeneities in the mantle
+   no crustal variations
+   using one layer only in PREM crust
+   incorporating transverse isotropy
+   no inner-core anisotropy
+   no general mantle anisotropy
+ 
+ 
+ mesh databases:
+   reading in crust/mantle databases...
+   reading in outer core databases...
+   reading in inner core databases...
+   reading in coupling surface databases...
+   reading in addressing...
+ Spatial distribution of the slices
+                       63   55   47   39   31   23   15    7
+                       62   54   46   38   30   22   14    6
+                       61   53   45   37   29   21   13    5
+                       60   52   44   36   28   20   12    4
+                       59   51   43   35   27   19   11    3
+                       58   50   42   34   26   18   10    2
+                       57   49   41   33   25   17    9    1
+                       56   48   40   32   24   16    8    0
+  
+   191  183  175  167  159  151  143  135     127  119  111  103   95   87   79   71     319  311  303  295  287  279  271  263
+   190  182  174  166  158  150  142  134     126  118  110  102   94   86   78   70     318  310  302  294  286  278  270  262
+   189  181  173  165  157  149  141  133     125  117  109  101   93   85   77   69     317  309  301  293  285  277  269  261
+   188  180  172  164  156  148  140  132     124  116  108  100   92   84   76   68     316  308  300  292  284  276  268  260
+   187  179  171  163  155  147  139  131     123  115  107   99   91   83   75   67     315  307  299  291  283  275  267  259
+   186  178  170  162  154  146  138  130     122  114  106   98   90   82   74   66     314  306  298  290  282  274  266  258
+   185  177  169  161  153  145  137  129     121  113  105   97   89   81   73   65     313  305  297  289  281  273  265  257
+   184  176  168  160  152  144  136  128     120  112  104   96   88   80   72   64     312  304  296  288  280  272  264  256
+  
+                      383  375  367  359  351  343  335  327
+                      382  374  366  358  350  342  334  326
+                      381  373  365  357  349  341  333  325
+                      380  372  364  356  348  340  332  324
+                      379  371  363  355  347  339  331  323
+                      378  370  362  354  346  338  330  322
+                      377  369  361  353  345  337  329  321
+                      376  368  360  352  344  336  328  320
+  
+                      255  247  239  231  223  215  207  199
+                      254  246  238  230  222  214  206  198
+                      253  245  237  229  221  213  205  197
+                      252  244  236  228  220  212  204  196
+                      251  243  235  227  219  211  203  195
+                      250  242  234  226  218  210  202  194
+                      249  241  233  225  217  209  201  193
+                      248  240  232  224  216  208  200  192
+  
+   reading in MPI databases...
+   for overlapping of communications with calculations:
+ 
+   percentage of edge elements in crust/mantle    22.74306     %
+   percentage of volume elements in crust/mantle    77.25694     %
+ 
+   percentage of edge elements in outer core    51.66667     %
+   percentage of volume elements in outer core    48.33333     %
+ 
+   percentage of edge elements in inner core    41.42857     %
+   percentage of volume elements in inner core    58.57143     %
+ 
+ 
+ Elapsed time for reading mesh in seconds =    35.83402    
+ 
+ 
+ sources:
+ 
+ *************************************
+  locating source            1
+ *************************************
+ 
+ source located in slice           56
+                in element         9123
+ 
+    xi coordinate of source in that element:   0.701822058469948     
+   eta coordinate of source in that element:  -0.701822058469931     
+ gamma coordinate of source in that element:  -0.639350325074145     
+ 
+ Source time function is a Heaviside, convolve later
+ 
+ 
+  half duration:    1.06875000000000       seconds
+     time shift:   0.000000000000000E+000  seconds
+ 
+ original (requested) position of the source:
+ 
+       latitude:    46.0000000000000     
+      longitude:   -135.000000000000     
+          depth:    20.0000000000000       km
+ 
+ position of the source that will be used:
+ 
+       latitude:    46.0000005413630     
+      longitude:   -135.000000000000     
+          depth:    19.9999999999985       km
+ 
+ position of the source that will be used:
+ 
+              x:  -0.491346216149754     
+              y:  -0.491346216149754     
+              z:   0.714765134333481     
+ 
+ error in location of the source:   7.9081126E-13  km
+ 
+ maximum error in location of the sources:   7.9081126E-13  km
+ 
+ 
+ Elapsed time for detection of sources in seconds =   4.874773323535919E-003
+ 
+ End of source detection - done
+ 
+ 
+ printing the source-time function
+ 
+ printing the source spectrum
+ 
+ receivers:
+ 
+ Total number of receivers =          171
+ 
+ 
+ ********************
+  locating receivers
+ ********************
+ 
+ 
+ ****************************
+ reading receiver information
+ ****************************
+ 
+ Station #           1 : AAK.II    epicentral distance:     87.92324      degree
+ s
+ Station #           2 : ABKT.II    epicentral distance:     95.61759     
+  degrees
+ Station #           3 : ABPO.II    epicentral distance:     153.0286     
+  degrees
+ Station #           4 : ALE.II    epicentral distance:     42.42977      degree
+ s
+ Station #           5 : ARU.II    epicentral distance:     77.30435      degree
+ s
+ Station #           6 : ASCN.II    epicentral distance:     116.7567     
+  degrees
+ Station #           7 : BFO.II    epicentral distance:     80.73836      degree
+ s
+ Station #           8 : BORG.II    epicentral distance:     58.15329     
+  degrees
+ Station #           9 : BRVK.II    epicentral distance:     78.97352     
+  degrees
+ Station #          10 : CMLA.II    epicentral distance:     75.33978     
+  degrees
+ Station #          11 : COCO.II    epicentral distance:     124.8607     
+  degrees
+ Station #          12 : DGAR.II    epicentral distance:     134.8582     
+  degrees
+ Station #          13 : EFI.II    epicentral distance:     117.5776      degree
+ s
+ Station #          14 : ERM.II    epicentral distance:     56.50615      degree
+ s
+ Station #          15 : ESK.II    epicentral distance:     71.16897      degree
+ s
+ Station #          16 : FFC.II    epicentral distance:     22.61887      degree
+ s
+ Station #          17 : GAR.II    epicentral distance:     92.38243      degree
+ s
+ Station #          18 : HOPE.II    epicentral distance:     129.8907     
+  degrees
+ Station #          19 : JTS.II    epicentral distance:     55.40485      degree
+ s
+ Station #          20 : KAPI.II    epicentral distance:     104.1753     
+  degrees
+ Station #          21 : KDAK.II    epicentral distance:     15.96769     
+  degrees
+ Station #          22 : KIV.II    epicentral distance:     90.40295      degree
+ s
+ Station #          23 : KURK.II    epicentral distance:     79.36877     
+  degrees
+ Station #          24 : KWAJ.II    epicentral distance:     61.29347     
+  degrees
+ Station #          25 : LVZ.II    epicentral distance:     66.15871      degree
+ s
+ Station #          26 : MBAR.II    epicentral distance:     133.0800     
+  degrees
+ Station #          27 : MSEY.II    epicentral distance:     137.8353     
+  degrees
+ Station #          28 : MSVF.II    epicentral distance:     76.33221     
+  degrees
+ Station #          29 : NIL.II    epicentral distance:     96.69685      degree
+ s
+ Station #          30 : NNA.II    epicentral distance:     77.76838      degree
+ s
+ Station #          31 : NRIL.II    epicentral distance:     60.47321     
+  degrees
+ Station #          32 : NVS.II    epicentral distance:     74.44345      degree
+ s
+ Station #          33 : OBN.II    epicentral distance:     79.00398      degree
+ s
+ Station #          34 : PALK.II    epicentral distance:     118.1241     
+  degrees
+ Station #          35 : RAYN.II    epicentral distance:     110.8071     
+  degrees
+ Station #          36 : RPN.II    epicentral distance:     76.42350      degree
+ s
+ Station #          37 : SACV.II    epicentral distance:     93.53500     
+  degrees
+ Station #          38 : SHEL.II    epicentral distance:     128.3316     
+  degrees
+ Station #          39 : SUR.II    epicentral distance:     156.9511      degree
+ s
+ Station #          40 : TAU.II    epicentral distance:     112.1573      degree
+ s
+ Station #          41 : TLY.II    epicentral distance:     70.41089      degree
+ s
+ Station #          42 : UOSS.II    epicentral distance:     108.6612     
+  degrees
+ Station #          43 : WRAB.II    epicentral distance:     104.4975     
+  degrees
+ Station #          44 : XPFO.II    epicentral distance:     18.81501     
+  degrees
+ Station #          45 : AAE.IU    epicentral distance:     124.9362      degree
+ s
+ Station #          46 : ADK.IU    epicentral distance:     27.70691      degree
+ s
+ Station #          47 : AFI.IU    epicentral distance:     68.23016      degree
+ s
+ Station #          48 : ANMO.IU    epicentral distance:     24.23216     
+  degrees
+ Station #          49 : ANTO.IU    epicentral distance:     93.81482     
+  degrees
+ Station #          50 : BBSR.IU    epicentral distance:     54.48856     
+  degrees
+ Station #          51 : BILL.IU    epicentral distance:     36.76092     
+  degrees
+ Station #          52 : BOCO.IU    epicentral distance:     66.77824     
+  degrees
+ Station #          53 : CASY.IU    epicentral distance:     140.5794     
+  degrees
+ Station #          54 : CCM.IU    epicentral distance:     33.11156      degree
+ s
+ Station #          55 : CHTO.IU    epicentral distance:     99.13493     
+  degrees
+ Station #          56 : COLA.IU    epicentral distance:     20.19552     
+  degrees
+ Station #          57 : COR.IU    epicentral distance:     8.367637      degree
+ s
+ Station #          58 : CTAO.IU    epicentral distance:     96.71644     
+  degrees
+ Station #          59 : DAV.IU    epicentral distance:     91.46539      degree
+ s
+ Station #          60 : DWPF.IU    epicentral distance:     45.43180     
+  degrees
+ Station #          61 : FUNA.IU    epicentral distance:     67.97418     
+  degrees
+ Station #          62 : FURI.IU    epicentral distance:     125.0609     
+  degrees
+ Station #          63 : GNI.IU    epicentral distance:     94.23161      degree
+ s
+ Station #          64 : GRFO.IU    epicentral distance:     80.27171     
+  degrees
+ Station #          65 : GUMO.IU    epicentral distance:     73.52640     
+  degrees
+ Station #          66 : HKT.IU    epicentral distance:     34.37884      degree
+ s
+ Station #          67 : HNR.IU    epicentral distance:     80.02267      degree
+ s
+ Station #          68 : HRV.IU    epicentral distance:     44.50722      degree
+ s
+ Station #          69 : INCN.IU    epicentral distance:     69.28914     
+  degrees
+ Station #          70 : JOHN.IU    epicentral distance:     40.93766     
+  degrees
+ Station #          71 : KBS.IU    epicentral distance:     53.81291      degree
+ s
+ Station #          72 : KEV.IU    epicentral distance:     63.80395      degree
+ s
+ Station #          73 : KIEV.IU    epicentral distance:     82.71450     
+  degrees
+ Station #          74 : KIP.IU    epicentral distance:     30.88997      degree
+ s
+ Station #          75 : KMBO.IU    epicentral distance:     134.7950     
+  degrees
+ Station #          76 : KNTN.IU    epicentral distance:     58.42420     
+  degrees
+ Station #          77 : KONO.IU    epicentral distance:     70.78220     
+  degrees
+ Station #          78 : KOWA.IU    epicentral distance:     105.3340     
+  degrees
+ Station #          79 : LCO.IU    epicentral distance:     94.65683      degree
+ s
+ Station #          80 : LSZ.IU    epicentral distance:     146.2781      degree
+ s
+ Station #          81 : LVC.IU    epicentral distance:     90.74823      degree
+ s
+ Station #          82 : MA2.IU    epicentral distance:     44.46904      degree
+ s
+ Station #          83 : MAJO.IU    epicentral distance:     62.83920     
+  degrees
+ Station #          84 : MAKZ.IU    epicentral distance:     82.03217     
+  degrees
+ Station #          85 : MBWA.IU    epicentral distance:     115.3820     
+  degrees
+ Station #          86 : MIDW.IU    epicentral distance:     37.65392     
+  degrees
+ Station #          87 : MSKU.IU    epicentral distance:     127.9796     
+  degrees
+ Station #          88 : NAI.IU    epicentral distance:     134.8783      degree
+ s
+ Station #          89 : NWAO.IU    epicentral distance:     124.5239     
+  degrees
+ Station #          90 : OTAV.IU    epicentral distance:     67.22070     
+  degrees
+ Station #          91 : PAB.IU    epicentral distance:     84.05428      degree
+ s
+ Station #          92 : PAYG.IU    epicentral distance:     60.86074     
+  degrees
+ Station #          93 : PET.IU    epicentral distance:     42.24065      degree
+ s
+ Station #          94 : PMG.IU    epicentral distance:     88.36842      degree
+ s
+ Station #          95 : PMSA.IU    epicentral distance:     123.3917     
+  degrees
+ Station #          96 : POHA.IU    epicentral distance:     31.15615     
+  degrees
+ Station #          97 : PTCN.IU    epicentral distance:     70.87376     
+  degrees
+ Station #          98 : PTGA.IU    epicentral distance:     80.15867     
+  degrees
+ Station #          99 : QSPA.IU    epicentral distance:     135.7969     
+  degrees
+ Station #         100 : RAIO.IU    epicentral distance:     8.433706     
+  degrees
+ Station #         101 : RAO.IU    epicentral distance:     84.40348      degree
+ s
+ Station #         102 : RAR.IU    epicentral distance:     70.57295      degree
+ s
+ Station #         103 : RCBR.IU    epicentral distance:     100.4855     
+  degrees
+ Station #         104 : RSSD.IU    epicentral distance:     21.88706     
+  degrees
+ Station #         105 : SAML.IU    epicentral distance:     84.02484     
+  degrees
+ Station #         106 : SBA.IU    epicentral distance:     128.5376      degree
+ s
+ Station #         107 : SDV.IU    epicentral distance:     65.92065      degree
+ s
+ Station #         108 : SFJD.IU    epicentral distance:     46.67369     
+  degrees
+ Station #         109 : SJG.IU    epicentral distance:     62.56596      degree
+ s
+ Station #         110 : SLBS.IU    epicentral distance:     30.08100     
+  degrees
+ Station #         111 : SNZO.IU    epicentral distance:     97.82014     
+  degrees
+ Station #         112 : SSPA.IU    epicentral distance:     41.13194     
+  degrees
+ Station #         113 : TARA.IU    epicentral distance:     63.56806     
+  degrees
+ Station #         114 : TATO.IU    epicentral distance:     81.17904     
+  degrees
+ Station #         115 : TBT.IU    epicentral distance:     86.36153      degree
+ s
+ Station #         116 : TEIG.IU    epicentral distance:     45.95909     
+  degrees
+ Station #         117 : TIXI.IU    epicentral distance:     48.97165     
+  degrees
+ Station #         118 : TOL.IU    epicentral distance:     83.89252      degree
+ s
+ Station #         119 : TRIS.IU    epicentral distance:     137.0067     
+  degrees
+ Station #         120 : TRQA.IU    epicentral distance:     106.2294     
+  degrees
+ Station #         121 : TSUM.IU    epicentral distance:     145.0035     
+  degrees
+ Station #         122 : TUC.IU    epicentral distance:     23.11327      degree
+ s
+ Station #         123 : ULN.IU    epicentral distance:     71.93183      degree
+ s
+ Station #         124 : WAKE.IU    epicentral distance:     54.48638     
+  degrees
+ Station #         125 : WCI.IU    epicentral distance:     36.47298      degree
+ s
+ Station #         126 : WVT.IU    epicentral distance:     36.43323      degree
+ s
+ Station #         127 : XMAS.IU    epicentral distance:     47.99020     
+  degrees
+ Station #         128 : YAK.IU    epicentral distance:     52.99617      degree
+ s
+ Station #         129 : YSS.IU    epicentral distance:     54.06435      degree
+ s
+ Station #         130 : RR01.YV    epicentral distance:     152.6921     
+  degrees
+ Station #         131 : RR02.YV    epicentral distance:     153.2413     
+  degrees
+ Station #         132 : RR03.YV    epicentral distance:     154.3241     
+  degrees
+ Station #         133 : RR04.YV    epicentral distance:     154.8468     
+  degrees
+ Station #         134 : RR05.YV    epicentral distance:     153.9185     
+  degrees
+ Station #         135 : RR06.YV    epicentral distance:     152.9390     
+  degrees
+ Station #         136 : RR07.YV    epicentral distance:     151.6670     
+  degrees
+ Station #         137 : RR08.YV    epicentral distance:     150.7415     
+  degrees
+ Station #         138 : RR09.YV    epicentral distance:     149.0825     
+  degrees
+ Station #         139 : RR10.YV    epicentral distance:     148.6447     
+  degrees
+ Station #         140 : RR11.YV    epicentral distance:     148.0131     
+  degrees
+ Station #         141 : RR12.YV    epicentral distance:     148.9109     
+  degrees
+ Station #         142 : RR13.YV    epicentral distance:     149.7368     
+  degrees
+ Station #         143 : RR14.YV    epicentral distance:     148.3749     
+  degrees
+ Station #         144 : RR15.YV    epicentral distance:     149.7196     
+  degrees
+ Station #         145 : RR16.YV    epicentral distance:     149.4289     
+  degrees
+ Station #         146 : RR17.YV    epicentral distance:     151.3063     
+  degrees
+ Station #         147 : RR18.YV    epicentral distance:     151.6193     
+  degrees
+ Station #         148 : RR19.YV    epicentral distance:     153.0206     
+  degrees
+ Station #         149 : RR20.YV    epicentral distance:     152.0363     
+  degrees
+ Station #         150 : RR21.YV    epicentral distance:     154.0820     
+  degrees
+ Station #         151 : RR22.YV    epicentral distance:     154.6094     
+  degrees
+ Station #         152 : RR23.YV    epicentral distance:     155.9724     
+  degrees
+ Station #         153 : RR24.YV    epicentral distance:     158.3448     
+  degrees
+ Station #         154 : RR25.YV    epicentral distance:     155.4074     
+  degrees
+ Station #         155 : RR26.YV    epicentral distance:     156.0190     
+  degrees
+ Station #         156 : RR27.YV    epicentral distance:     154.8549     
+  degrees
+ Station #         157 : RR28.YV    epicentral distance:     155.8415     
+  degrees
+ Station #         158 : RR29.YV    epicentral distance:     158.3204     
+  degrees
+ Station #         159 : RR30.YV    epicentral distance:     160.1376     
+  degrees
+ Station #         160 : RR31.YV    epicentral distance:     162.6179     
+  degrees
+ Station #         161 : RR32.YV    epicentral distance:     163.9164     
+  degrees
+ Station #         162 : RR33.YV    epicentral distance:     164.4963     
+  degrees
+ Station #         163 : RR34.YV    epicentral distance:     165.0221     
+  degrees
+ Station #         164 : RR35.YV    epicentral distance:     165.2091     
+  degrees
+ Station #         165 : RR36.YV    epicentral distance:     165.1304     
+  degrees
+ Station #         166 : RUM1.YV    epicentral distance:     156.7518     
+  degrees
+ Station #         167 : RUM2.YV    epicentral distance:     156.0691     
+  degrees
+ Station #         168 : RUM5.YV    epicentral distance:     158.7647     
+  degrees
+ Station #         169 : RUN01.YV    epicentral distance:     153.5303     
+  degrees
+ Station #         170 : RER.G    epicentral distance:     153.7185      degrees
+ Station #         171 : HYB.G    epicentral distance:     109.9542      degrees
+ 
+ maximum error in location of all the receivers:   2.7621850E-12  km
+ 
+ Elapsed time for receiver detection in seconds =   2.304232120513916E-002
+ 
+ End of receiver detection - done
+ 
+ 
+ found a total of          171  receivers in all slices
+ this total is okay
+ 
+ source arrays:
+   number of sources is            1
+   size of source array                 =   1.4305115E-03 MB
+                                        =   1.3969839E-06 GB
+ 
+ seismograms:
+   writing out seismograms at every NTSTEP_BETWEEN_OUTPUT_SEISMOS =        11400
+   maximum number of local receivers is           21  in slice          199
+   size of maximum seismogram array       =    2.739716     MB
+                                          =   2.6755035E-03 GB
+ 
+ 
+ Total number of samples for seismograms =        11400
+ 
+ 
+ Reference radius of the Earth used is    6371.00000000000       km
+ 
+ 
+ no oceans
+ 
+ no ellipticity
+ 
+ no surface topography
+ 
+ no self-gravitation
+ 
+ no rotation
+ 
+ no attenuation
+ 
+ 
+ 
+ preparing mass matrices
+ preparing constants
+ preparing gravity arrays
+ preparing wavefields
+ 
+ Elapsed time for preparing timerun in seconds =   6.7782581E-02
+ 
+ 
+ time loop:
+ 
+               scheme:         Newmark
+            time step:   0.2137500      s
+ number of time steps:        11400
+ total simulated time:    40.58222      minutes
+ start time          :  -1.603125      seconds
+ 
+ 
+ Starting time iteration loop...
+ 
+ Time step #            5
+ Time:  -1.2468750E-02  minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  0.0000000E+00
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.0012161E-24
+ Elapsed time in seconds =   0.596411880105734     
+ Elapsed time in hh:mm:ss =    0 h 00 m 00 s
+ Mean elapsed time per time step in seconds =   0.119282376021147     
+ Time steps done =            5  out of        11400
+ Time steps remaining =        11395
+ Estimated remaining time in seconds =    1359.22267476097     
+ Estimated remaining time in hh:mm:ss =    0 h 22 m 39 s
+ Estimated total run time in seconds =    1359.81908664107     
+ Estimated total run time in hh:mm:ss =    0 h 22 m 39 s
+ We have done   4.3859649E-02 % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:09
+ ************************************************************
+ **** BEWARE: the above time estimates are not reliable
+ **** because fewer than 100 iterations have been performed
+ ************************************************************
+ 
+ Time step #          500
+ Time:    1.750969      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  3.1723190E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.1679691E-24
+ Elapsed time in seconds =    72.7894138731062     
+ Elapsed time in hh:mm:ss =    0 h 01 m 12 s
+ Mean elapsed time per time step in seconds =   0.145578827746212     
+ Time steps done =          500  out of        11400
+ Time steps remaining =        10900
+ Estimated remaining time in seconds =    1586.80922243372     
+ Estimated remaining time in hh:mm:ss =    0 h 26 m 26 s
+ Estimated total run time in seconds =    1659.59863630682     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 39 s
+ We have done    4.385965     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         1000
+ Time:    3.532219      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.6805390E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.3224890E-24
+ Elapsed time in seconds =    145.263289399445     
+ Elapsed time in hh:mm:ss =    0 h 02 m 25 s
+ Mean elapsed time per time step in seconds =   0.145263289399445     
+ Time steps done =         1000  out of        11400
+ Time steps remaining =        10400
+ Estimated remaining time in seconds =    1510.73820975423     
+ Estimated remaining time in hh:mm:ss =    0 h 25 m 10 s
+ Estimated total run time in seconds =    1656.00149915367     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 36 s
+ We have done    8.771930     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         1500
+ Time:    5.313469      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  4.6905872E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.0033252E-19
+ Elapsed time in seconds =    215.935891093686     
+ Elapsed time in hh:mm:ss =    0 h 03 m 35 s
+ Mean elapsed time per time step in seconds =   0.143957260729124     
+ Time steps done =         1500  out of        11400
+ Time steps remaining =         9900
+ Estimated remaining time in seconds =    1425.17688121833     
+ Estimated remaining time in hh:mm:ss =    0 h 23 m 45 s
+ Estimated total run time in seconds =    1641.11277231202     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 21 s
+ We have done    13.15790     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         2000
+ Time:    7.094719      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  3.9721947E-04
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    7.3172883E-19
+ Elapsed time in seconds =    288.580850904807     
+ Elapsed time in hh:mm:ss =    0 h 04 m 48 s
+ Mean elapsed time per time step in seconds =   0.144290425452404     
+ Time steps done =         2000  out of        11400
+ Time steps remaining =         9400
+ Estimated remaining time in seconds =    1356.32999925259     
+ Estimated remaining time in hh:mm:ss =    0 h 22 m 36 s
+ Estimated total run time in seconds =    1644.91085015740     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 24 s
+ We have done    17.54386     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:14
+ 
+ Time step #         2500
+ Time:    8.875969      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  8.9102268E-04
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.5494043E-18
+ Elapsed time in seconds =    360.339464867488     
+ Elapsed time in hh:mm:ss =    0 h 06 m 00 s
+ Mean elapsed time per time step in seconds =   0.144135785946995     
+ Time steps done =         2500  out of        11400
+ Time steps remaining =         8900
+ Estimated remaining time in seconds =    1282.80849492826     
+ Estimated remaining time in hh:mm:ss =    0 h 21 m 22 s
+ Estimated total run time in seconds =    1643.14795979574     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 23 s
+ We have done    21.92982     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         3000
+ Time:    10.65722      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.4720524E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    3.7166495E-18
+ Elapsed time in seconds =    429.904503585771     
+ Elapsed time in hh:mm:ss =    0 h 07 m 09 s
+ Mean elapsed time per time step in seconds =   0.143301501195257     
+ Time steps done =         3000  out of        11400
+ Time steps remaining =         8400
+ Estimated remaining time in seconds =    1203.73261004016     
+ Estimated remaining time in hh:mm:ss =    0 h 20 m 03 s
+ Estimated total run time in seconds =    1633.63711362593     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 13 s
+ We have done    26.31579     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         3500
+ Time:    12.43847      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  6.1991501E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    2.2718985E-17
+ Elapsed time in seconds =    502.584266500548     
+ Elapsed time in hh:mm:ss =    0 h 08 m 22 s
+ Mean elapsed time per time step in seconds =   0.143595504714442     
+ Time steps done =         3500  out of        11400
+ Time steps remaining =         7900
+ Estimated remaining time in seconds =    1134.40448724409     
+ Estimated remaining time in hh:mm:ss =    0 h 18 m 54 s
+ Estimated total run time in seconds =    1636.98875374464     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 16 s
+ We have done    30.70175     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         4000
+ Time:    14.21972      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  2.9041503E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    2.2374895E-17
+ Elapsed time in seconds =    575.260875273496     
+ Elapsed time in hh:mm:ss =    0 h 09 m 35 s
+ Mean elapsed time per time step in seconds =   0.143815218818374     
+ Time steps done =         4000  out of        11400
+ Time steps remaining =         7400
+ Estimated remaining time in seconds =    1064.23261925597     
+ Estimated remaining time in hh:mm:ss =    0 h 17 m 44 s
+ Estimated total run time in seconds =    1639.49349452946     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 19 s
+ We have done    35.08772     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         4500
+ Time:    16.00097      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  3.9027395E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    8.9167489E-17
+ Elapsed time in seconds =    648.037333810702     
+ Elapsed time in hh:mm:ss =    0 h 10 m 48 s
+ Mean elapsed time per time step in seconds =   0.144008296402378     
+ Time steps done =         4500  out of        11400
+ Time steps remaining =         6900
+ Estimated remaining time in seconds =    993.657245176410     
+ Estimated remaining time in hh:mm:ss =    0 h 16 m 33 s
+ Estimated total run time in seconds =    1641.69457898711     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 21 s
+ We have done    39.47368     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:14
+ 
+ Time step #         5000
+ Time:    17.78222      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.2813020E-05
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.5955192E-16
+ Elapsed time in seconds =    720.713351940736     
+ Elapsed time in hh:mm:ss =    0 h 12 m 00 s
+ Mean elapsed time per time step in seconds =   0.144142670388147     
+ Time steps done =         5000  out of        11400
+ Time steps remaining =         6400
+ Estimated remaining time in seconds =    922.513090484142     
+ Estimated remaining time in hh:mm:ss =    0 h 15 m 22 s
+ Estimated total run time in seconds =    1643.22644242488     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 23 s
+ We have done    43.85965     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         5500
+ Time:    19.56347      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  7.7237391E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.0334403E-16
+ Elapsed time in seconds =    793.399811016396     
+ Elapsed time in hh:mm:ss =    0 h 13 m 13 s
+ Mean elapsed time per time step in seconds =   0.144254511093890     
+ Time steps done =         5500  out of        11400
+ Time steps remaining =         5900
+ Estimated remaining time in seconds =    851.101615453952     
+ Estimated remaining time in hh:mm:ss =    0 h 14 m 11 s
+ Estimated total run time in seconds =    1644.50142647035     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 24 s
+ We have done    48.24561     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         6000
+ Time:    21.34472      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  2.3858720E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    6.3004580E-17
+ Elapsed time in seconds =    866.175446031615     
+ Elapsed time in hh:mm:ss =    0 h 14 m 26 s
+ Mean elapsed time per time step in seconds =   0.144362574338603     
+ Time steps done =         6000  out of        11400
+ Time steps remaining =         5400
+ Estimated remaining time in seconds =    779.557901428454     
+ Estimated remaining time in hh:mm:ss =    0 h 12 m 59 s
+ Estimated total run time in seconds =    1645.73334746007     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 25 s
+ We have done    52.63158     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         6500
+ Time:    23.12597      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  2.3383172E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    6.2560504E-17
+ Elapsed time in seconds =    938.888531617820     
+ Elapsed time in hh:mm:ss =    0 h 15 m 38 s
+ Mean elapsed time per time step in seconds =   0.144444389479665     
+ Time steps done =         6500  out of        11400
+ Time steps remaining =         4900
+ Estimated remaining time in seconds =    707.777508450357     
+ Estimated remaining time in hh:mm:ss =    0 h 11 m 47 s
+ Estimated total run time in seconds =    1646.66604006818     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 26 s
+ We have done    57.01754     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         7000
+ Time:    24.90722      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  2.1034543E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    4.1717077E-17
+ Elapsed time in seconds =    1011.50722519122     
+ Elapsed time in hh:mm:ss =    0 h 16 m 51 s
+ Mean elapsed time per time step in seconds =   0.144501032170174     
+ Time steps done =         7000  out of        11400
+ Time steps remaining =         4400
+ Estimated remaining time in seconds =    635.804541548767     
+ Estimated remaining time in hh:mm:ss =    0 h 10 m 35 s
+ Estimated total run time in seconds =    1647.31176673999     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 27 s
+ We have done    61.40351     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:14
+ 
+ Time step #         7500
+ Time:    26.68847      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.6540943E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    4.1459179E-17
+ Elapsed time in seconds =    1083.45316080377     
+ Elapsed time in hh:mm:ss =    0 h 18 m 03 s
+ Mean elapsed time per time step in seconds =   0.144460421440502     
+ Time steps done =         7500  out of        11400
+ Time steps remaining =         3900
+ Estimated remaining time in seconds =    563.395643617958     
+ Estimated remaining time in hh:mm:ss =    0 h 09 m 23 s
+ Estimated total run time in seconds =    1646.84880442172     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 26 s
+ We have done    65.78947     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         8000
+ Time:    28.46972      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.8823907E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    3.8469166E-17
+ Elapsed time in seconds =    1154.25789581798     
+ Elapsed time in hh:mm:ss =    0 h 19 m 14 s
+ Mean elapsed time per time step in seconds =   0.144282236977248     
+ Time steps done =         8000  out of        11400
+ Time steps remaining =         3400
+ Estimated remaining time in seconds =    490.559605722642     
+ Estimated remaining time in hh:mm:ss =    0 h 08 m 10 s
+ Estimated total run time in seconds =    1644.81750154062     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 24 s
+ We have done    70.17544     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         8500
+ Time:    30.25097      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.6713007E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    3.1611402E-17
+ Elapsed time in seconds =    1226.74502010830     
+ Elapsed time in hh:mm:ss =    0 h 20 m 26 s
+ Mean elapsed time per time step in seconds =   0.144322943542153     
+ Time steps done =         8500  out of        11400
+ Time steps remaining =         2900
+ Estimated remaining time in seconds =    418.536536272243     
+ Estimated remaining time in hh:mm:ss =    0 h 06 m 58 s
+ Estimated total run time in seconds =    1645.28155638054     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 25 s
+ We have done    74.56140     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         9000
+ Time:    32.03222      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.4868775E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    5.2175185E-17
+ Elapsed time in seconds =    1298.59720603935     
+ Elapsed time in hh:mm:ss =    0 h 21 m 38 s
+ Mean elapsed time per time step in seconds =   0.144288578448817     
+ Time steps done =         9000  out of        11400
+ Time steps remaining =         2400
+ Estimated remaining time in seconds =    346.292588277161     
+ Estimated remaining time in hh:mm:ss =    0 h 05 m 46 s
+ Estimated total run time in seconds =    1644.88979431652     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 24 s
+ We have done    78.94736     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #         9500
+ Time:    33.81347      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.3606123E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    8.3500475E-17
+ Elapsed time in seconds =    1368.77527305298     
+ Elapsed time in hh:mm:ss =    0 h 22 m 48 s
+ Mean elapsed time per time step in seconds =   0.144081607689787     
+ Time steps done =         9500  out of        11400
+ Time steps remaining =         1900
+ Estimated remaining time in seconds =    273.755054610595     
+ Estimated remaining time in hh:mm:ss =    0 h 04 m 33 s
+ Estimated total run time in seconds =    1642.53032766357     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 22 s
+ We have done    83.33334     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:14
+ 
+ Time step #        10000
+ Time:    35.59472      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.4378086E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    7.6350709E-17
+ Elapsed time in seconds =    1441.28566425480     
+ Elapsed time in hh:mm:ss =    0 h 24 m 01 s
+ Mean elapsed time per time step in seconds =   0.144128566425480     
+ Time steps done =        10000  out of        11400
+ Time steps remaining =         1400
+ Estimated remaining time in seconds =    201.779992995672     
+ Estimated remaining time in hh:mm:ss =    0 h 03 m 21 s
+ Estimated total run time in seconds =    1643.06565725047     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 23 s
+ We have done    87.71930     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #        10500
+ Time:    37.37597      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.3348158E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    5.8994429E-17
+ Elapsed time in seconds =    1512.87913853116     
+ Elapsed time in hh:mm:ss =    0 h 25 m 12 s
+ Mean elapsed time per time step in seconds =   0.144083727479158     
+ Time steps done =        10500  out of        11400
+ Time steps remaining =          900
+ Estimated remaining time in seconds =    129.675354731243     
+ Estimated remaining time in hh:mm:ss =    0 h 02 m 09 s
+ Estimated total run time in seconds =    1642.55449326241     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 22 s
+ We have done    92.10526     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #        11000
+ Time:    39.15722      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.2527940E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    1.1595692E-16
+ Elapsed time in seconds =    1583.45302390121     
+ Elapsed time in hh:mm:ss =    0 h 26 m 23 s
+ Mean elapsed time per time step in seconds =   0.143950274900110     
+ Time steps done =        11000  out of        11400
+ Time steps remaining =          400
+ Estimated remaining time in seconds =    57.5801099600440     
+ Estimated remaining time in hh:mm:ss =    0 h 00 m 57 s
+ Estimated total run time in seconds =    1641.03313386125     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 21 s
+ We have done    96.49123     % of that
+ The run will finish approximately on (in local time): Mon Jun 14, 2021 09:13
+ 
+ Time step #        11400
+ Time:    40.58222      minutes
+ Max norm displacement vector U in solid in all slices for forward prop. (m) = 
+  1.2134942E-06
+ Max non-dimensional potential Ufluid in fluid in all slices for forward prop. =
+    6.2374395E-17
+ Elapsed time in seconds =    1640.90893612057     
+ Elapsed time in hh:mm:ss =    0 h 27 m 20 s
+ Mean elapsed time per time step in seconds =   0.143939380361453     
+ Time steps done =        11400  out of        11400
+ Time steps remaining =            0
+ Estimated remaining time in seconds =   0.000000000000000E+000
+ Estimated remaining time in hh:mm:ss =    0 h 00 m 00 s
+ Estimated total run time in seconds =    1640.90893612057     
+ Estimated total run time in hh:mm:ss =    0 h 27 m 20 s
+ We have done    100.0000     % of that
+ 
+ Time-Loop Complete. Timing info:
+ Total elapsed time in seconds =    1641.02668966539     
+ Total elapsed time in hh:mm:ss =    0 h 27 m 21 s
+ 
+ End of the simulation
+ 

@@ -1,0 +1,57 @@
+\BOOKMARK [0][-]{chapter.1}{1 Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{1.1 Citation}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{1.2 Support}{chapter.1}% 3
+\BOOKMARK [0][-]{chapter.2}{2 Getting Started}{}% 4
+\BOOKMARK [1][-]{section.2.1}{2.1 Configuring and compiling the source code}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.2}{2.2 Compiling on an IBM BlueGene}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{2.3 Using a cross compiler}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{2.4 Adding OpenMP support in addition to MPI}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.5}{2.5 Visualizing the subroutine calling tree of the source code}{chapter.2}% 9
+\BOOKMARK [0][-]{chapter.3}{3 Running the Mesher xmeshfem3D}{}% 10
+\BOOKMARK [1][-]{section.3.1}{3.1 Memory requirements}{chapter.3}% 11
+\BOOKMARK [0][-]{chapter.4}{4 Running the Solver xspecfem3D}{}% 12
+\BOOKMARK [0][-]{chapter.5}{5 Regional Simulations}{}% 13
+\BOOKMARK [1][-]{section.5.1}{5.1 One-Chunk Simulations}{chapter.5}% 14
+\BOOKMARK [1][-]{section.5.2}{5.2 Two-Chunk Simulations}{chapter.5}% 15
+\BOOKMARK [0][-]{chapter.6}{6 Adjoint Simulations}{}% 16
+\BOOKMARK [1][-]{section.6.1}{6.1 Adjoint Simulations for Sources Only \(not for the Model\)}{chapter.6}% 17
+\BOOKMARK [1][-]{section.6.2}{6.2 Adjoint Simulations for Finite-Frequency Kernels \(Kernel Simulation\)}{chapter.6}% 18
+\BOOKMARK [0][-]{chapter.7}{7 Noise Cross-correlation Simulations}{}% 19
+\BOOKMARK [1][-]{section.7.1}{7.1 New Requirements on `Old' Input Parameter Files}{chapter.7}% 20
+\BOOKMARK [1][-]{section.7.2}{7.2 Noise Simulations: Step by Step}{chapter.7}% 21
+\BOOKMARK [2][-]{subsection.7.2.1}{7.2.1 Pre-simulation}{section.7.2}% 22
+\BOOKMARK [2][-]{subsection.7.2.2}{7.2.2 Simulations}{section.7.2}% 23
+\BOOKMARK [2][-]{subsection.7.2.3}{7.2.3 Post-simulation}{section.7.2}% 24
+\BOOKMARK [1][-]{section.7.3}{7.3 Examples}{chapter.7}% 25
+\BOOKMARK [0][-]{chapter.8}{8 Graphics}{}% 26
+\BOOKMARK [1][-]{section.8.1}{8.1 Meshes}{chapter.8}% 27
+\BOOKMARK [1][-]{section.8.2}{8.2 Movies}{chapter.8}% 28
+\BOOKMARK [2][-]{subsection.8.2.1}{8.2.1 Movie Surface}{section.8.2}% 29
+\BOOKMARK [2][-]{subsection.8.2.2}{8.2.2 Movie Volume}{section.8.2}% 30
+\BOOKMARK [1][-]{section.8.3}{8.3 Finite-Frequency Kernels}{chapter.8}% 31
+\BOOKMARK [0][-]{chapter.9}{9 Running through a Scheduler}{}% 32
+\BOOKMARK [1][-]{section.9.1}{9.1 run\137lsf.bash}{chapter.9}% 33
+\BOOKMARK [1][-]{section.9.2}{9.2 go\137mesher\137solver\137lsf\137globe.bash}{chapter.9}% 34
+\BOOKMARK [1][-]{section.9.3}{9.3 run\137lsf.kernel and go\137mesher\137solver\137globe.kernel}{chapter.9}% 35
+\BOOKMARK [0][-]{chapter.10}{10 \040Changing the Model}{}% 36
+\BOOKMARK [1][-]{section.10.1}{10.1 Changing the Crustal Model}{chapter.10}% 37
+\BOOKMARK [1][-]{section.10.2}{10.2 Changing the Mantle Model}{chapter.10}% 38
+\BOOKMARK [2][-]{subsection.10.2.1}{10.2.1 Isotropic Models}{section.10.2}% 39
+\BOOKMARK [2][-]{subsection.10.2.2}{10.2.2 Anisotropic Models}{section.10.2}% 40
+\BOOKMARK [2][-]{subsection.10.2.3}{10.2.3 Point-Profile Models}{section.10.2}% 41
+\BOOKMARK [1][-]{section.10.3}{10.3 Anelastic Models}{chapter.10}% 42
+\BOOKMARK [0][-]{chapter.11}{11 Post-Processing Scripts}{}% 43
+\BOOKMARK [1][-]{section.11.1}{11.1 Clean Local Database}{chapter.11}% 44
+\BOOKMARK [1][-]{section.11.2}{11.2 Process Data and Synthetics}{chapter.11}% 45
+\BOOKMARK [2][-]{subsection.11.2.1}{11.2.1 process\137data.pl}{section.11.2}% 46
+\BOOKMARK [2][-]{subsection.11.2.2}{11.2.2 process\137syn.pl}{section.11.2}% 47
+\BOOKMARK [2][-]{subsection.11.2.3}{11.2.3 rotate.pl}{section.11.2}% 48
+\BOOKMARK [2][-]{subsection.11.2.4}{11.2.4 clean\137sac\137headers\137after\137crash.sh}{section.11.2}% 49
+\BOOKMARK [1][-]{section.11.3}{11.3 Map Local Database}{chapter.11}% 50
+\BOOKMARK [0][-]{appendix.A}{A Reference Frame Convention}{}% 51
+\BOOKMARK [0][-]{appendix.B}{B Non-Dimensionalization Conventions }{}% 52
+\BOOKMARK [0][-]{appendix.C}{C Benchmarks}{}% 53
+\BOOKMARK [0][-]{appendix.D}{D SAC Headers}{}% 54
+\BOOKMARK [0][-]{appendix.E}{E Channel Codes of Seismograms}{}% 55
+\BOOKMARK [0][-]{appendix.F}{F Troubleshooting}{}% 56
+\BOOKMARK [0][-]{appendix.G}{G License}{}% 57

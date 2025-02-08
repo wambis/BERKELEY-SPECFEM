@@ -1,0 +1,28 @@
+#!/bin/bash -l
+#SBATCH --job-name specbench
+#SBATCH --nodes=2
+#SBATCH --ntasks=96
+#SBATCH --time=2:30:00
+#SBATCH --output specfem.out
+#SBATCH --error specfem.err
+#SBATCH --verbose
+#SBATCH --partition skx-normal
+
+# module purge
+# module load shared gcc/6.3.0 openmpi-2.1.1/gcc-6.3.0 slurm 
+# module load shared slurm/17.02.10 intel/compiler/64/15.0/1.133 openmpi/intel/64/1.10.3
+
+echo "Running on: $SLURM_NODELIST"
+echo "SLURM_NTASKS=$SLURM_NTASKS"
+echo "SLURM_NTASKS_PER_NODE=$SLURM_NTASKS_PER_NODE"
+echo "SLURM_NNODES=$SLURM_NNODES"
+
+
+echo ">>>> Running Mesh `date`"
+# Running Mesher
+ibrun -n 96 ./bin/xmeshfem3D
+
+echo ">>>> Running Spec `date`"
+# Running simulation 
+ibrun -n 96 ./bin/xspecfem3D
+~                                         

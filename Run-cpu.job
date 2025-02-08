@@ -1,0 +1,27 @@
+#!/bin/bash -l
+#SBATCH -J xspec_UCB
+#SBATCH --nodes=12
+#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks=384
+#SBATCH --output log-xspec-%J.out
+#SBATCH --error  log-xspec-%J.err
+#SBATCH -t 09:00:30
+#SBATCH --dependency=afterok:10024817
+
+
+#SBATCH --mail-type=ALL
+#Load everything necessary
+#source ../00_compilations_parameters.sh
+
+##########################################
+module purge
+module load intel/19.0/64/19.0.5.281 intel-mpi/intel/2019.7/64
+
+#change directory to build
+#cd ../specfem
+#cd ../specfem-body
+
+#Run Solver
+ulimit -s unlimited
+srun ./bin/xspecfem3D
+#srun  --mpi=pmix ./bin/xspecfem3D

@@ -1,0 +1,661 @@
+!=====================================================================
+!
+!          S p e c f e m 3 D  G l o b e  V e r s i o n  6 . 0
+!          --------------------------------------------------
+!
+!     Main historical authors: Dimitri Komatitsch and Jeroen Tromp
+!                        Princeton University, USA
+!                and CNRS / University of Marseille, France
+!                 (there are currently many more authors!)
+! (c) Princeton University and CNRS / University of Marseille, April 2014
+!
+! This program is free software; you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation; either version 2 of the License, or
+! (at your option) any later version.
+!
+! This program is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+! GNU General Public License for more details.
+!
+! You should have received a copy of the GNU General Public License along
+! with this program; if not, write to the Free Software Foundation, Inc.,
+! 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+!
+!=====================================================================
+
+!--------------------------------------------------------------------------------------------------
+! CRUST 2.0 model by Bassin et al. (2000)
+!
+! C. Bassin, G. Laske, and G. Masters.
+! The current limits of resolution for surface wave tomography in North America.
+! EOS, 81: F897, 2000.
+!
+! The 7 crustal layers:
+! ====================
+! 1) ice
+! 2) water
+! 3) soft sediments
+! 4) hard sediments
+! 5) upper crust
+! 6) middle crust
+! 7) lower crust
+! + Parameters VP, VS and rho are given explicitly for these 7 layers as well as the mantle below the Moho.
+!
+! reads and smooths crust2.0 model
+!--------------------------------------------------------------------------------------------------
+
+  module model_crust_berkeley_par
+
+  type :: nodes_modele
+      doubleprecision, dimension(:,:), allocatable :: param_bcrust
+  end type
+  type :: long_modele
+      type(nodes_modele), dimension(:), allocatable :: longitude_bcrust
+  end type
+  type(long_modele), dimension(:), allocatable :: latitude_bcrust
+
+  doubleprecision, dimension(:), allocatable :: mem_lat_bcrust,mem_long_bcrust
+
+  integer, dimension (:,:), allocatable :: nb_nodes_bcrust  
+  double precision :: latmin_bcrust, latmax_bcrust, dlat_bcrust
+  double precision :: longmin_bcrust, longmax_bcrust, dlong_bcrust
+  integer :: n_lat_bcrust, n_long_bcrust
+
+  end module model_crust_berkeley_par
+
+!
+!--------------------------------------------------------------------------------------------------
+!
+
+  subroutine model_berkeley_crust_broadcast(myrank)
+
+! standard routine to setup model
+
+  use model_crust_berkeley_par
+  use constants
+
+  implicit none
+
+  integer :: myrank
+
+  integer :: i,j,k, openstatus, n
+  character(len=100), parameter :: crust_dat = 'DATA/berkeley_model/Crust.asc'
+  double precision, dimension(:), allocatable :: dtmp
+  integer, dimension(:), allocatable :: itmp
+  integer :: nitmp, ndtmp, ier
+  logical :: add_one_long
+  integer, parameter :: lunit = 53
+
+  !
+  ! master reads crust data
+  !
+
+  if(myrank==0)then
+
+  ndtmp = 0
+
+  open(lunit, file=trim(crust_dat), status="old", iostat=openstatus)
+  if(openstatus>0) STOP "***Cannot open the file Crust.asc***"
+  read(lunit,*), latmin_bcrust, latmax_bcrust, dlat_bcrust
+  if (mod(latmax_bcrust-latmin_bcrust,dlat_bcrust)/=0) then
+      print *,"In the file Crust.asc the latitude step doesn't fit the latitude limits"
+      stop
+  endif
+  read(lunit,*), longmin_bcrust, longmax_bcrust, dlong_bcrust
+  if (longmin_bcrust<0.d0)   longmin_bcrust = 360.d0 + longmin_bcrust
+  if (longmax_bcrust<0.d0)   longmax_bcrust = 360.d0 + longmax_bcrust
+  ! dirty fix to set long periodic
+  add_one_long=.false.
+  !if(longmin_bcrust==0.d0.and.longmax_bcrust==360.d0-dlong_bcrust)then
+  ! add_one_long = .true.
+  ! longmax_bcrust = 360.d0
+  !endif
+  if (mod(longmax_bcrust-longmin_bcrust,dlong_bcrust)/=0) then
+      print *,"In the file Crust.asc the longitude step doesn't fit the longitude limits"
+      stop
+  endif
+  n_lat_bcrust = int((latmax_bcrust-latmin_bcrust)/dlat_bcrust) + 1
+  n_long_bcrust = int((longmax_bcrust-longmin_bcrust)/dlong_bcrust) + 1
+  allocate (latitude_bcrust(0:n_lat_bcrust-1))
+  allocate (mem_lat_bcrust(0:n_lat_bcrust-1))
+  allocate (mem_long_bcrust(0:n_long_bcrust-1))
+  allocate (nb_nodes_bcrust(0:n_lat_bcrust-1,0:n_long_bcrust-1))
+  do i = 0,n_lat_bcrust-1
+      allocate (latitude_bcrust(i)%longitude_bcrust(0:n_long_bcrust-1))
+      do j = 0,n_long_bcrust-1
+          if(add_one_long==.true.)then
+           if(j/=n_long_bcrust-1)then
+            read(lunit,*) mem_lat_bcrust(i), mem_long_bcrust(j), nb_nodes_bcrust(i,j)
+            mem_lat_bcrust(i) = 90.d0 - mem_lat_bcrust(i)
+           else
+            mem_long_bcrust(j)  = mem_long_bcrust(0)
+            nb_nodes_bcrust(i,j)= nb_nodes_bcrust(i,0)
+           endif
+           if (mem_long_bcrust(j)<0.d0)   mem_long_bcrust(j) = 360.d0 + mem_long_bcrust(j)
+           allocate (latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(1:nb_nodes_bcrust(i,j),1:9))
+           do k = 1,nb_nodes_bcrust(i,j)
+            if(j/=n_long_bcrust-1)then
+               read(lunit,*) (latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(k,n), n=1,9)
+            else
+               latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(k,1:9) = latitude_bcrust(i)%longitude_bcrust(0)%param_bcrust(k,1:9)
+            endif
+            ndtmp = ndtmp+9
+           enddo
+          else
+           read(lunit,*) mem_lat_bcrust(i), mem_long_bcrust(j), nb_nodes_bcrust(i,j)
+           mem_lat_bcrust(i) = 90.d0 - mem_lat_bcrust(i)
+           if (mem_long_bcrust(j)<0.d0)   mem_long_bcrust(j) = 360.d0 + mem_long_bcrust(j)
+           allocate (latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(1:nb_nodes_bcrust(i,j),1:9))
+           do k = 1,nb_nodes_bcrust(i,j)
+               read(lunit,*) (latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(k,n), n=1,9)
+               ndtmp = ndtmp+9
+           enddo
+          endif
+      enddo
+  enddo    
+  close(lunit)
+
+  endif
+
+
+  !
+  ! Broadcast crust data
+  !
+
+
+  call BCAST_ALL_SINGLEDP(latmin_bcrust)
+  call BCAST_ALL_SINGLEDP(latmax_bcrust)
+  call BCAST_ALL_SINGLEDP(dlat_bcrust)
+
+  call BCAST_ALL_SINGLEDP(longmin_bcrust)
+  call BCAST_ALL_SINGLEDP(longmax_bcrust)
+  call BCAST_ALL_SINGLEDP(dlong_bcrust)
+
+  call BCAST_ALL_SINGLEI(n_lat_bcrust)
+  call BCAST_ALL_SINGLEI(n_long_bcrust)
+
+  if(.not.allocated(latitude_bcrust)) allocate (latitude_bcrust(0:n_lat_bcrust-1))
+  if(.not.allocated(mem_lat_bcrust) ) allocate (mem_lat_bcrust(0:n_lat_bcrust-1))
+  if(.not.allocated(mem_long_bcrust)) allocate (mem_long_bcrust(0:n_long_bcrust-1))
+  if(.not.allocated(nb_nodes_bcrust)) allocate (nb_nodes_bcrust(0:n_lat_bcrust-1,0:n_long_bcrust-1))
+
+  call BCAST_ALL_DP(mem_lat_bcrust(0),n_lat_bcrust)
+  call BCAST_ALL_DP(mem_long_bcrust(0),n_long_bcrust)  
+
+
+  ! broadcadst nb_nodes_bcrust
+
+  allocate(itmp(n_lat_bcrust*n_long_bcrust))
+
+  if(myrank==0)then
+   nitmp = 0
+   do j = 0,n_long_bcrust-1
+    do i = 0,n_lat_bcrust-1
+     nitmp = nitmp+1
+     itmp(nitmp) = nb_nodes_bcrust(i,j)
+    enddo
+   enddo
+  endif
+   
+  call BCAST_ALL_SINGLEI(nitmp)
+  call BCAST_ALL_I(itmp,nitmp)
+
+  nitmp = 0
+  do j = 0,n_long_bcrust-1
+   do i = 0,n_lat_bcrust-1
+    nitmp = nitmp+1
+    if(myrank/=0)nb_nodes_bcrust(i,j) = itmp(nitmp) 
+   enddo
+  enddo
+
+  deallocate(itmp)
+
+  ! broadcast irregular array
+
+  do i = 0,n_lat_bcrust-1
+  if(.not.allocated(latitude_bcrust(i)%longitude_bcrust))allocate (latitude_bcrust(i)%longitude_bcrust(0:n_long_bcrust-1))
+      do j = 0,n_long_bcrust-1
+      if(.not.allocated(latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust))&
+      allocate (latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(1:nb_nodes_bcrust(i,j),1:9))
+      enddo
+  enddo  
+
+  
+  call BCAST_ALL_SINGLEI(ndtmp)
+  allocate(dtmp(ndtmp))
+
+  if(myrank==0)then
+   ndtmp = 0  
+   do i = 0,n_lat_bcrust-1
+      do j = 0,n_long_bcrust-1
+          do k = 1,nb_nodes_bcrust(i,j)
+            do n = 1,9
+              ndtmp = ndtmp+1
+              dtmp(ndtmp) = latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(k,n)
+            enddo
+          enddo
+      enddo
+   enddo    
+  endif
+   
+  call BCAST_ALL_DP(dtmp,ndtmp)
+
+  ndtmp = 0  
+  do i = 0,n_lat_bcrust-1
+     do j = 0,n_long_bcrust-1
+         do k = 1,nb_nodes_bcrust(i,j)
+           do n = 1,9
+             ndtmp = ndtmp+1
+             if(myrank/=0)latitude_bcrust(i)%longitude_bcrust(j)%param_bcrust(k,n) = dtmp(ndtmp)
+           enddo
+         enddo
+     enddo
+  enddo    
+
+  deallocate(dtmp)
+
+
+  end subroutine model_berkeley_crust_broadcast
+
+!
+!-------------------------------------------------------------------------------------------------
+!
+  subroutine model_berkeley_crust(lat,lon,x,vp,vs,rho,moho,found_crust,elem_in_crust)
+
+  use model_crust_berkeley_par
+  use constants
+
+implicit none
+
+double precision,intent(in) :: lat,lon,x
+double precision,intent(out) :: vp,vs,rho,moho
+logical,intent(out) :: found_crust
+logical,intent(in) :: elem_in_crust
+
+double precision :: r,theta_rad,phi_rad
+double precision :: vpv,vph,vsv,vsh,eta_aniso,Qmu
+
+logical :: special
+integer :: i,j, ok
+doubleprecision :: depth, Wcolat,Wlong,Wrad, theta,phi, epsil
+doubleprecision, dimension(1:10) :: param
+doubleprecision, dimension(1:2,1:10) :: pt_intermediaire
+doubleprecision, dimension(1:8,1:10) :: pt
+doubleprecision, parameter :: Rterre = 6371.d0
+double precision :: moho_depth, scaleval
+double precision :: rad2deg,ttt,ppp
+
+rad2deg = 180.d0/(4.d0*datan(1.d0))
+epsil = dlong_bcrust/1000.d0
+
+theta = lat!rad2deg*theta_rad
+phi = lon!rad2deg*phi_rad
+
+if(phi<0)phi=phi+360.d0
+theta = 90.d0-theta
+
+depth = (1-x)*R_EARTH_KM
+
+moho_depth = 0.d0
+
+ttt = theta
+ppp = phi
+
+if (phi>=360.)   phi = 359.999
+
+!depth = Rterre-r
+if (depth<=0)   depth = 0.001
+
+j = 0
+do while (phi - mem_long_bcrust(j) >= dlong_bcrust)
+    j = j + 1
+    if (j==n_long_bcrust) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL 1 !!!",j,n_long_bcrust,phi - mem_long_bcrust(j),dlong_bcrust,phi,theta,ttt,ppp
+        STOP
+    endif
+enddo
+special = .false.
+if (j==0 .and. phi<longmin_bcrust) then
+    if (dabs((longmax_bcrust+dlong_bcrust-360.d0)-longmin_bcrust) > epsil) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL 2 !!!"
+        STOP
+    else
+        j = n_long_bcrust-1
+        special = .true.
+    endif
+else if (j==n_long_bcrust-1) then
+    if (dabs((longmax_bcrust+dlong_bcrust-360.d0)-longmin_bcrust) > epsil) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL 3 !!!"
+        STOP
+    endif
+endif
+
+ok = 0
+if (theta > mem_lat_bcrust(0)) then
+    i = 0
+    ok = 1
+else
+    i = 0
+    boucle : do while (mem_lat_bcrust(i)-theta >= dlat_bcrust)
+        i = i + 1
+        if (i==n_lat_bcrust-1) then
+            ok = 1
+            exit boucle
+        endif
+    enddo boucle
+endif
+
+if (ok==1) then
+
+    if (i==0) then
+        if (mem_lat_bcrust(i)+dlat_bcrust > 180.d0) then
+            call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+            if (j==n_long_bcrust-1) then
+                call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+            else
+                call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+            endif
+        else
+            print *, "THE LATITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL 4 !!!"
+            STOP
+        endif
+    else if (i==n_lat_bcrust-1) then
+        if (mem_lat_bcrust(i)-dlat_bcrust < 0.d0) then
+            call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+            if (j==n_long_bcrust-1) then
+                call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+            else
+                call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+            endif
+        else
+            print *, "THE LATITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL 5 !!!"
+            STOP
+        endif
+    endif
+    Wlong = abs(phi-mem_long_bcrust(j)) / dlong_bcrust
+    if (special)   Wlong = dabs(dlong_bcrust-(longmin_bcrust-phi)) / dlong_bcrust
+    pt_intermediaire(2,1:10) = Wlong*pt(4,1:10) + (1-Wlong)*pt(2,1:10)
+    if (depth>=pt_intermediaire(2,1)) then
+        param(1:10) = pt_intermediaire(2,1:10)
+    else
+        pt_intermediaire(1,1:10) = Wlong*pt(3,1:10) + (1-Wlong)*pt(1,1:10)
+        Wrad = abs(depth-pt_intermediaire(1,1)) / abs(pt_intermediaire(2,1)-pt_intermediaire(1,1))
+        param(1:10) = Wrad*pt_intermediaire(2,1:10) + (1-Wrad)*pt_intermediaire(1,1:10)
+    endif
+else
+
+    call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+    if (j==n_long_bcrust-1) then
+        call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+    else
+        call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+    endif
+    call lookfordepths(i+1,j,pt(5,1:10),pt(6,1:10),depth)
+    if (j==n_long_bcrust-1) then
+        call lookfordepths(i+1,0,pt(7,1:10),pt(8,1:10),depth)
+    else
+        call lookfordepths(i+1,j+1,pt(7,1:10),pt(8,1:10),depth)
+    endif
+
+    Wcolat = abs(theta-mem_lat_bcrust(i)) / dlat_bcrust
+    Wlong = abs(phi-mem_long_bcrust(j)) / dlong_bcrust
+    if (special)   Wlong = dabs(dlong_bcrust-(longmin_bcrust-phi)) / dlong_bcrust
+    pt_intermediaire(2,1:10) = Wcolat * (Wlong*pt(8,1:10) + (1-Wlong)*pt(6,1:10)) + &
+                              (1-Wcolat) * (Wlong*pt(4,1:10) + (1-Wlong)*pt(2,1:10))
+    if (depth>=pt_intermediaire(2,1)) then
+        param(1:10) = pt_intermediaire(2,1:10)
+    else
+        pt_intermediaire(1,1:10) = Wcolat * (Wlong*pt(7,1:10) + (1-Wlong)*pt(5,1:10)) + &
+                                  (1-Wcolat) * (Wlong*pt(3,1:10) + (1-Wlong)*pt(1,1:10))
+        Wrad = abs(depth-pt_intermediaire(1,1)) / abs(pt_intermediaire(2,1)-pt_intermediaire(1,1))
+        param(1:10) = Wrad*pt_intermediaire(2,1:10) + (1-Wrad)*pt_intermediaire(1,1:10)
+    endif
+
+endif
+
+if (param(4)<2.4) then
+    rho = 2400.d0;   vpv = 4200.d0; vph = 4200.d0;   vsv = 2400.d0; vsh = 2400.d0
+    eta_aniso = 1.d0
+else
+    rho = param(2) * 1000.d0
+    vpv = param(3) * 1000.d0
+    vph = param(7) * 1000.d0
+    vsv = param(4) * 1000.d0
+    vsh = param(8) * 1000.d0
+    eta_aniso = param(9)
+endif
+Qmu = param(6)
+vp = dsqrt((vpv**2.d0+4.d0*vph**2.d0)/4.d0)
+vs = dsqrt((2.d0*vsv**2.d0+vsh**2.d0)/3.d0)
+
+moho_depth = param(10)
+if(depth>moho_depth)then
+found_crust=.true.
+else
+found_crust=.true.
+endif
+
+scaleval=dsqrt(PI*GRAV*RHOAV)
+vp=vp/(R_EARTH*scaleval)
+vs=vs/(R_EARTH*scaleval)
+rho=rho/RHOAV
+
+moho = moho_depth/R_EARTH_KM
+
+ end subroutine model_berkeley_crust
+
+subroutine model_berkeley_crust_aniso(lat,lon,x,vpv,vph,vsv,vsh,eta_aniso,rho,moho,found_crust,elem_in_crust)
+
+  use model_crust_berkeley_par
+  use constants
+
+implicit none
+
+double precision,intent(in) :: lat,lon,x
+double precision,intent(out) :: vpv,vsv,vph,vsh,eta_aniso,rho,moho
+logical,intent(out) :: found_crust
+logical,intent(in) :: elem_in_crust
+
+double precision :: r,theta_rad,phi_rad
+double precision :: vp,vs,Qmu
+
+logical :: special
+integer :: i,j, ok
+doubleprecision :: depth, Wcolat,Wlong,Wrad, theta,phi, epsil
+doubleprecision, dimension(1:10) :: param
+doubleprecision, dimension(1:2,1:10) :: pt_intermediaire
+doubleprecision, dimension(1:8,1:10) :: pt
+doubleprecision, parameter :: Rterre = 6371.d0
+double precision :: moho_depth, scaleval
+double precision :: rad2deg
+
+rad2deg = 180.d0/(4.d0*datan(1.d0))
+epsil = dlong_bcrust/1000.d0
+theta = lat!rad2deg*theta_rad
+phi = lon!rad2deg*phi_rad
+
+if(phi<0)phi=phi+360.d0
+theta = 90.d0-theta
+
+depth = (1-x)*R_EARTH_KM
+
+moho_depth = 0.d0
+
+if (phi>=360)   phi = 359.999
+
+!depth = Rterre-r
+if (depth<=0)   depth = 0.001
+
+j = 0
+do while (phi - mem_long_bcrust(j) >= dlong_bcrust)
+    j = j + 1
+    if (j==n_long_bcrust) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL aniso !!!"
+        STOP
+    endif
+enddo
+special = .false.
+if (j==0 .and. phi<longmin_bcrust) then
+    if (dabs((longmax_bcrust+dlong_bcrust-360.d0)-longmin_bcrust) > epsil) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL ansio !!!"
+        STOP
+    else
+        j = n_long_bcrust-1
+        special = .true.
+    endif
+else if (j==n_long_bcrust-1) then
+    if (dabs((longmax_bcrust+dlong_bcrust-360.d0)-longmin_bcrust) > epsil) then
+        print *, "THE LONGITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL aniso!!!"
+        STOP
+    endif
+endif
+
+ok = 0
+if (theta > mem_lat_bcrust(0)) then
+    i = 0
+    ok = 1
+else
+    i = 0
+    boucle : do while (mem_lat_bcrust(i)-theta >= dlat_bcrust)
+        i = i + 1
+        if (i==n_lat_bcrust-1) then
+            ok = 1
+            exit boucle
+        endif
+    enddo boucle
+endif
+
+if (ok==1) then
+
+    if (i==0) then
+        if (mem_lat_bcrust(i)+dlat_bcrust > 180.d0) then
+            call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+            if (j==n_long_bcrust-1) then
+                call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+            else
+                call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+            endif
+        else
+            print *, "THE LATITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL !!!"
+            STOP
+        endif
+    else if (i==n_lat_bcrust-1) then
+        if (mem_lat_bcrust(i)-dlat_bcrust < 0.d0) then
+            call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+            if (j==n_long_bcrust-1) then
+                call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+            else
+                call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+            endif
+        else
+            print *, "THE LATITUDE RANGE DEFINED IN Crust.asc IS TOO SMALL !!!"
+            STOP
+        endif
+    endif
+    Wlong = abs(phi-mem_long_bcrust(j)) / dlong_bcrust
+    if (special)   Wlong = dabs(dlong_bcrust-(longmin_bcrust-phi)) / dlong_bcrust
+    pt_intermediaire(2,1:10) = Wlong*pt(4,1:10) + (1-Wlong)*pt(2,1:10)
+    if (depth>=pt_intermediaire(2,1)) then
+        param(1:10) = pt_intermediaire(2,1:10)
+    else
+        pt_intermediaire(1,1:10) = Wlong*pt(3,1:10) + (1-Wlong)*pt(1,1:10)
+        Wrad = abs(depth-pt_intermediaire(1,1)) / abs(pt_intermediaire(2,1)-pt_intermediaire(1,1))
+        param(1:10) = Wrad*pt_intermediaire(2,1:10) + (1-Wrad)*pt_intermediaire(1,1:10)
+    endif
+else
+
+    call lookfordepths(i,j,pt(1,1:10),pt(2,1:10),depth)
+    if (j==n_long_bcrust-1) then
+        call lookfordepths(i,0,pt(3,1:10),pt(4,1:10),depth)
+    else
+        call lookfordepths(i,j+1,pt(3,1:10),pt(4,1:10),depth)
+    endif
+    call lookfordepths(i+1,j,pt(5,1:10),pt(6,1:10),depth)
+    if (j==n_long_bcrust-1) then
+        call lookfordepths(i+1,0,pt(7,1:10),pt(8,1:10),depth)
+    else
+        call lookfordepths(i+1,j+1,pt(7,1:10),pt(8,1:10),depth)
+    endif
+
+    Wcolat = abs(theta-mem_lat_bcrust(i)) / dlat_bcrust
+    Wlong = abs(phi-mem_long_bcrust(j)) / dlong_bcrust
+    if (special)   Wlong = dabs(dlong_bcrust-(longmin_bcrust-phi)) / dlong_bcrust
+    pt_intermediaire(2,1:10) = Wcolat * (Wlong*pt(8,1:10) + (1-Wlong)*pt(6,1:10)) + &
+                              (1-Wcolat) * (Wlong*pt(4,1:10) + (1-Wlong)*pt(2,1:10))
+    if (depth>=pt_intermediaire(2,1)) then
+        param(1:10) = pt_intermediaire(2,1:10)
+    else
+        pt_intermediaire(1,1:10) = Wcolat * (Wlong*pt(7,1:10) + (1-Wlong)*pt(5,1:10)) + &
+                                  (1-Wcolat) * (Wlong*pt(3,1:10) + (1-Wlong)*pt(1,1:10))
+        Wrad = abs(depth-pt_intermediaire(1,1)) / abs(pt_intermediaire(2,1)-pt_intermediaire(1,1))
+        param(1:10) = Wrad*pt_intermediaire(2,1:10) + (1-Wrad)*pt_intermediaire(1,1:10)
+    endif
+
+endif
+
+if (param(4)<2.4) then
+    rho = 2400.d0;   vpv = 4200.d0; vph = 4200.d0;   vsv = 2400.d0; vsh = 2400.d0
+    eta_aniso = 1.d0
+else
+    rho = param(2) * 1000.d0
+    vpv = param(3) * 1000.d0
+    vph = param(7) * 1000.d0
+    vsv = param(4) * 1000.d0
+    vsh = param(8) * 1000.d0
+    eta_aniso = param(9)
+endif
+Qmu = param(6)
+vp = dsqrt((vpv**2.d0+4.d0*vph**2.d0)/4.d0)
+vs = dsqrt((2.d0*vsv**2.d0+vsh**2.d0)/3.d0)
+
+moho_depth = param(10)
+if(depth>moho_depth)then
+found_crust=.false.
+else
+found_crust=.true.
+endif
+
+scaleval=dsqrt(PI*GRAV*RHOAV)
+vpv=vpv/(R_EARTH*scaleval)
+vsv=vsv/(R_EARTH*scaleval)
+vph=vph/(R_EARTH*scaleval)
+vsh=vsh/(R_EARTH*scaleval)
+rho=rho/RHOAV
+
+if(vpv<0.)print*,'wring vpv value in model_berkeley_crust_aniso',lat,lon
+
+moho = moho_depth/R_EARTH_KM
+
+ end subroutine model_berkeley_crust_aniso
+
+!---------------------------------------------------------------
+subroutine lookfordepths (latnum,longnum,ptA,ptB,depth)
+!---------------------------------------------------------------
+
+use model_crust_berkeley_par
+
+implicit none
+
+integer, intent(IN) :: latnum,longnum
+doubleprecision, intent(IN) :: depth
+doubleprecision, dimension(1:10), intent(OUT) :: ptA, ptB
+
+integer :: k
+
+k = 1
+cherche : do while (latitude_bcrust(latnum)%longitude_bcrust(longnum)%param_bcrust(k,1) < depth)
+    k = k + 1
+    if (k==nb_nodes_bcrust(latnum,longnum)) exit cherche
+enddo cherche
+ptA(1:9) = latitude_bcrust(latnum)%longitude_bcrust(longnum)%param_bcrust(k-1,:)
+ptB(1:9) = latitude_bcrust(latnum)%longitude_bcrust(longnum)%param_bcrust(k,:)
+ptA(10) = latitude_bcrust(latnum)%longitude_bcrust(longnum)%param_bcrust(nb_nodes_bcrust(latnum,longnum),1)
+ptB(10) = latitude_bcrust(latnum)%longitude_bcrust(longnum)%param_bcrust(nb_nodes_bcrust(latnum,longnum),1)
+
+return
+
+!----------------------------------------------------------------
+end subroutine lookfordepths
+!----------------------------------------------------------------

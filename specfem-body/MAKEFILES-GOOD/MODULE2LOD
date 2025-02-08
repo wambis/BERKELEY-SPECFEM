@@ -1,0 +1,7 @@
+To compile on tiger use the makefile
+Makefile.intel 
+
+and load the following modules
+
+
+module load intel/19.0/64/19.0.5.281 intel-mpi/intel/2019.7/64
